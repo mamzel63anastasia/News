@@ -12,7 +12,7 @@ import java.util.List;
 public class UserDao {
     @Transactional
     public List<User> getUsers(String login, String password) {
-        Session session= HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
 
         try {
@@ -26,12 +26,20 @@ public class UserDao {
             session.close();
 
             return userList;
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             session.getTransaction().commit();
             session.close();
             return Collections.emptyList();
         }
+    }
 
+    @Transactional
+    public void addUser(User user) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.saveOrUpdate(user);
+        session.getTransaction().commit();
+        session.close();
     }
 }
