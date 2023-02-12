@@ -23,10 +23,6 @@ public class User {
     private String login;
 
     @Basic
-    @Column(name = "email", updatable = false, nullable = false)
-    private String email;
-
-    @Basic
     @Column(name = " password", nullable = false)
     private String password;
 
@@ -45,14 +41,6 @@ public class User {
 
     public void setLogin(String login) {
         this.login = login;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getPassword() {
