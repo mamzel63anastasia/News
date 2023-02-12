@@ -14,7 +14,7 @@ public class Producer {
              name =  "UUID",
              strategy = "org.hibernate.id.UUIDGeneration"
      )
-     @Column(name = "id", unique = true, updatable = false)
+     @Column(name = "id", unique = true, updatable = false, nullable = false)
     private UUID id;
 
      @Basic
