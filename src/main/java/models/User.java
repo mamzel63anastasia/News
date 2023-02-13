@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
-@Table (name = "users", schema = "public")
+@Table(name = "users", schema = "public")
 public class User {
     @Id
     @GeneratedValue(generator = "UUID")
@@ -15,17 +15,21 @@ public class User {
             name = "UUID",
             strategy = "org.hibernate.id.UUIDGenerator"
     )
-    @Column(name = "id", unique = true, updatable =  false, nullable = false)
+    @Column(name = "id", unique = true, updatable = false, nullable = false)
     private UUID id;
 
-   @Basic
-   @Column(name = "login", updatable = false, nullable = false)
+    @Basic
+    @Column(name = "login", updatable = false, nullable = false)
     private String login;
 
     @Basic
     @Column(name = " password", nullable = false)
     private String password;
 
+    public User(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
 
     public UUID getId() {
         return id;

@@ -42,4 +42,6 @@ public class UserDao {
         session.getTransaction().commit();
         session.close();
     }
+
+
 }

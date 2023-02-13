@@ -25,6 +25,11 @@ public class Producer {
      @Column(name = "country", nullable =  false)
     private String country;
 
+     public Producer(String name, String country) {
+         this.name = name;
+         this.country = country;
+     }
+
 
      public UUID getId() {
          return id;
