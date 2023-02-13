@@ -41,7 +41,7 @@
             <input type="password" class="form-control" id="floatingPassword" placeholder="Пароль" name="pass">
             <label for="floatingPassword">Введите пароль</label>
         </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Войти</button>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Регистрация</button>
 
         <div class="alert alert-danger alert-dismissible fade <%=messageInfo != null ? "show" : ""%>" role="alert">
             <%=messageInfo%>
