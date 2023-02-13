@@ -29,7 +29,9 @@ public class RegistrationServlet extends HttpServlet {
             String pass = UserUtils.buildHash(request.getParameter("pass"));
 
             UserDao userDao = new UserDao();
-            User user = new User(login, pass);
+            User user = new User();
+            user.setLogin(login);
+            user.setPassword(pass);
 
             userDao.addUser(user);
 

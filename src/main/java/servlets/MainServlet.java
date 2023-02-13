@@ -15,10 +15,13 @@ import java.io.IOException;
 public class MainServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        ProducerDao producerDao = new ProducerDao();
-        Producer producer = new Producer("компания", "страна");
-        producerDao.addProducer(producer);
+        /*Producer producer = new Producer();
+        producer.setName("name");
+        producer.setCountry("Country");
 
+        ProducerDao producerDao = new ProducerDao();
+        producerDao.addProducer(producer);
+*/
 
         if (!UserUtils.checkAuthUser(request)) {
             response.sendRedirect("/login");

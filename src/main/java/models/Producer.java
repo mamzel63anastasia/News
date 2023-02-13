@@ -9,26 +9,21 @@ import java.util.UUID;
  @Table( name = "producer", schema = "public")
 public class Producer {
      @Id
-     @GeneratedValue (generator = "UUID")
+     @GeneratedValue(generator = "UUID")
      @GenericGenerator(
-             name =  "UUID",
-             strategy = "org.hibernate.id.UUIDGeneration"
+             name = "UUID",
+             strategy = "org.hibernate.id.UUIDGenerator"
      )
      @Column(name = "id", unique = true, updatable = false, nullable = false)
-    private UUID id;
+     private UUID id;
 
      @Basic
-     @ Column(name = "producer_name", nullable = false)
+     @ Column(name = "name", nullable = false)
     private  String name;
 
      @Basic
      @Column(name = "country", nullable =  false)
     private String country;
-
-     public Producer(String name, String country) {
-         this.name = name;
-         this.country = country;
-     }
 
 
      public UUID getId() {

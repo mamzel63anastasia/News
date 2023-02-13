@@ -23,13 +23,8 @@ public class User {
     private String login;
 
     @Basic
-    @Column(name = " password", nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
-
-    public User(String login, String password) {
-        this.login = login;
-        this.password = password;
-    }
 
     public UUID getId() {
         return id;
