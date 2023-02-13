@@ -1,5 +1,7 @@
 package utils;
 
+import models.Producer;
+import models.Substance;
 import models.User;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -23,6 +25,9 @@ public class HibernateUtil {
             try {
                 Configuration conf = new Configuration().configure();
                 conf.addAnnotatedClass(User.class);
+                conf.addAnnotatedClass(Producer.class);
+
+
 
                 ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                         .applySettings(conf.getProperties()).build();
