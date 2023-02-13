@@ -23,4 +23,13 @@
     <url-pattern>/login</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>RegistrationServlet</servlet-name>
+    <servlet-class>servlets.RegistrationServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RegistrationServlet</servlet-name>
+    <url-pattern>/registration</url-pattern>
+  </servlet-mapping>
+
 </web-app>

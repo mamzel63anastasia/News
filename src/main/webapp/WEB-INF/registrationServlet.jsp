@@ -9,7 +9,7 @@
 %>
 <html>
 <head>
-    <title>Аптека - авторизация</title>
+    <title>Аптека - регистрация</title>
     <%@include file="header-include.html"%>
 </head>
 <body class="text-center">
@@ -31,7 +31,7 @@
 </style>
 <main class="form-signin w-100 m-auto">
     <form method="post">
-        <h1 class="h3 mb-3 fw-normal">Войти</h1>
+        <h1 class="h3 mb-3 fw-normal">Регистрация</h1>
 
         <div class="form-floating">
             <input type="text" class="form-control" id="floatingInput" placeholder="Логин" name="login">
@@ -42,8 +42,6 @@
             <label for="floatingPassword">Введите пароль</label>
         </div>
         <button class="w-100 btn btn-lg btn-primary" type="submit">Войти</button>
-
-        <a href="/registration" class="btn btn-lg btn-success">Регистрация</a>
 
         <div class="alert alert-danger alert-dismissible fade <%=messageInfo != null ? "show" : ""%>" role="alert">
             <%=messageInfo%>
