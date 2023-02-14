@@ -67,11 +67,11 @@
       </div>
     </nav>
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-      <table class="table">
+      <table class="table table-striped">
         <tr>
-          <td>Пользователь</td>
-          <td>Редактировать</td>
-          <td>Удалить</td>
+          <th>Пользователь</th>
+          <th>Редактировать</th>
+          <th>Удалить</th>
         </tr>
         <% for ( User user : list) {%>
         <tr>
