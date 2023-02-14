@@ -26,6 +26,14 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
+//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JoinColumn(name = "order_id")
+@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+@JoinColumn( name = "order_id")
+    private Order order;
+
+
+
     public UUID getId() {
         return id;
     }
@@ -48,5 +56,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }
