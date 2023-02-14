@@ -35,6 +35,28 @@ public class UserDao {
     }
 
     @Transactional
+    public List<User> getUsers() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        try {
+            Query userQuery = session.createQuery("from User");
+
+            List<User> userList = (List<User>) userQuery.list();
+
+            session.getTransaction().commit();
+            session.close();
+
+            return userList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().commit();
+            session.close();
+            return Collections.emptyList();
+        }
+    }
+
+    @Transactional
     public void addUser(User user) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();

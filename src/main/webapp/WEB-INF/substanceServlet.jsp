@@ -1,5 +1,15 @@
-<%@ page import="java.util.Date" %>
+<%@ page import="dao.SubstanceDao" %>
+<%@ page import="models.Substance" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%
+    SubstanceDao substanceDao = new SubstanceDao();
+   List<Substance> list = substanceDao.getSubstances();
+   // List<Substance> list = new ArrayList<>();
+%>
+
+
 <html>
 <head>
     <title>Аптека - главная</title>
@@ -25,18 +35,18 @@
             <div class="position-sticky pt-3 sidebar-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">
+                        <a class="nav-link" aria-current="page" href="/">
                             Главная
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/producers">
-                            Производитель
+                            Производители
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/substances">
-                            Активное вещество
+                        <a class="nav-link active" aria-current="page" href="/substances">
+                            Активные вещества
                         </a>
                     </li>
                     <li class="nav-item">
@@ -58,7 +68,30 @@
             </div>
         </nav>
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <h1><%=this.getClass().getName()%></h1>
+            <table class="table">
+                <tr>
+                    <td>МНН</td>
+                    <td>Фармгруппа</td>
+                    <td>Редактировать</td>
+                    <td>Удалить</td>
+                </tr>
+                <% for (Substance  substance : list) { %>
+                <tr>
+                    <td><%=substance.getMnn()%></td>
+                    <td><%=substance.getFarmgroup()%></td>
+                    <td>
+                        <a class="item-edit" href="/substance/edit?substanceId=<%=substance.getId()%>">
+                            Редактировать
+                        </a>
+                    </td>
+                    <td>
+                        <a class="substance-delete-link" href="#" id="<%=substance.getId()%>">
+                            Удалить
+                        </a>
+                    </td>
+                </tr>
+                <% } %>
+            </table>
         </main>
     </div>
 </div>

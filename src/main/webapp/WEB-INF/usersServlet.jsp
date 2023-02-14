@@ -1,5 +1,14 @@
 <%@ page import="java.util.Date" %>
+<%@ page import="dao.UserDao" %>
+<%@ page import="models.User" %>
+<%@ page import="org.w3c.dom.stylesheets.LinkStyle" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%
+  UserDao userDao = new UserDao();
+  List<User> list = userDao.getUsers();
+%>
+
 <html>
 <head>
   <title>Аптека - главная</title>
@@ -30,13 +39,13 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="#">
-              Производитель
+            <a class="nav-link" aria-current="page" href="/producers">
+              Производители
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="#">
-              Активное вещество
+            <a class="nav-link" aria-current="page" href="/substances">
+              Активные вещества
             </a>
           </li>
           <li class="nav-item">
@@ -58,7 +67,28 @@
       </div>
     </nav>
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-      <h1><%=this.getClass().getName()%></h1>
+      <table class="table">
+        <tr>
+          <td>Пользователь</td>
+          <td>Редактировать</td>
+          <td>Удалить</td>
+        </tr>
+        <% for ( User user : list) {%>
+        <tr>
+          <td><%=user.getLogin()%></td>
+          <td>
+            <a class="item-edit" href="/user/edit?userId=<%=user.getId()%>">
+              Редактировать
+            </a>
+          </td>
+          <td>
+            <a class="user-delete-link" href="#" id="<%=user.getId()%>">
+              Удалить
+            </a>
+          </td>
+        </tr>
+        <% } %>
+      </table>
     </main>
   </div>
 </div>

@@ -1,8 +1,6 @@
 package utils;
 
-import models.Producer;
-import models.Substance;
-import models.User;
+import models.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -26,6 +24,9 @@ public class HibernateUtil {
                 Configuration conf = new Configuration().configure();
                 conf.addAnnotatedClass(User.class);
                 conf.addAnnotatedClass(Producer.class);
+                conf.addAnnotatedClass(Substance.class);
+                conf.addAnnotatedClass(Medicament.class);
+                conf.addAnnotatedClass(Order.class);
 
 
 

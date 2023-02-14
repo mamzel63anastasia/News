@@ -40,5 +40,23 @@
     <servlet-name>UsersServlet</servlet-name>
     <url-pattern>/users</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>ProducerServlet</servlet-name>
+    <servlet-class>servlets.ProducerServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ProducerServlet</servlet-name>
+    <url-pattern>/producers</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>SubstanceServlet</servlet-name>
+    <servlet-class>servlets.SubstanceServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SubstanceServlet</servlet-name>
+    <url-pattern>/substances</url-pattern>
+  </servlet-mapping>
 
 </web-app>

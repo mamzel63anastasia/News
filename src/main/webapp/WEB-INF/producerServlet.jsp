@@ -1,5 +1,13 @@
-<%@ page import="java.util.Date" %>
+<%@ page import="dao.ProducerDao" %>
+<%@ page import="models.Producer" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%
+    ProducerDao producerDao = new ProducerDao();
+    List<Producer> list = producerDao.getProducers();
+%>
+
+
 <html>
 <head>
     <title>Аптека - главная</title>
@@ -25,18 +33,18 @@
             <div class="position-sticky pt-3 sidebar-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">
+                        <a class="nav-link" aria-current="page" href="/">
                             Главная
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/producers">
-                            Производитель
+                        <a class="nav-link active" aria-current="page" href="/producers">
+                            Производители
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/substances">
-                            Активное вещество
+                            Активные вещества
                         </a>
                     </li>
                     <li class="nav-item">
@@ -58,10 +66,34 @@
             </div>
         </nav>
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <h1><%=this.getClass().getName()%></h1>
+            <table class="table">
+                <tr>
+                    <td>Наименование</td>
+                    <td>Страна изготовитель</td>
+                    <td>Редактировать</td>
+                    <td>Удалить</td>
+                </tr>
+                <% for (Producer producer : list) { %>
+                <tr>
+                    <td><%=producer.getName()%></td>
+                    <td><%=producer.getCountry()%></td>
+                    <td>
+                        <a class="item-edit" href="/producer/edit?producerId=<%=producer.getId()%>">
+                            Редактировать
+                        </a>
+                    </td>
+                    <td>
+                        <a class="producer-delete-link" href="#" id="<%=producer.getId()%>">
+                            Удалить
+                        </a>
+                    </td>
+                </tr>
+                <% } %>
+            </table>
         </main>
     </div>
 </div>
 <%@include file="footer-include.html" %>
 </body>
 </html>
+
