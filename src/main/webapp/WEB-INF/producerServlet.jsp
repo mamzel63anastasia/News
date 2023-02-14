@@ -66,12 +66,12 @@
             </div>
         </nav>
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <table class="table">
+            <table class="table table-striped">
                 <tr>
-                    <td>Наименование</td>
-                    <td>Страна изготовитель</td>
-                    <td>Редактировать</td>
-                    <td>Удалить</td>
+                    <th>Наименование</th>
+                    <th>Страна изготовитель</th>
+                    <th>Редактировать</th>
+                    <th>Удалить</th>
                 </tr>
                 <% for (Producer producer : list) { %>
                 <tr>

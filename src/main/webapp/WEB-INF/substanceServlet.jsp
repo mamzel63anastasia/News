@@ -68,12 +68,12 @@
             </div>
         </nav>
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <table class="table">
+            <table class="table table-striped">
                 <tr>
-                    <td>МНН</td>
-                    <td>Фармгруппа</td>
-                    <td>Редактировать</td>
-                    <td>Удалить</td>
+                    <th>МНН</th>
+                    <th>Фармгруппа</th>
+                    <th>Редактировать</th>
+                    <th>Удалить</th>
                 </tr>
                 <% for (Substance  substance : list) { %>
                 <tr>
