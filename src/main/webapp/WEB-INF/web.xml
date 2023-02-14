@@ -59,4 +59,22 @@
     <url-pattern>/substances</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>MedicamentServlet</servlet-name>
+    <servlet-class>servlets.MedicamentServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MedicamentServlet</servlet-name>
+    <url-pattern>/medicaments</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>OrderServlet</servlet-name>
+    <servlet-class>servlets.OrderServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>OrderServlet</servlet-name>
+    <url-pattern>/orders</url-pattern>
+  </servlet-mapping>
+
 </web-app>

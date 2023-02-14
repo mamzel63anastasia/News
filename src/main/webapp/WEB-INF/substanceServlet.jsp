@@ -50,13 +50,13 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">
-                            Медикамент
+                        <a class="nav-link" aria-current="page" href="/medicaments">
+                            Медикаменты
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">
-                            Заказ
+                        <a class="nav-link" aria-current="page" href="/orders">
+                            Заказы
                         </a>
                     </li>
                     <li class="nav-item">

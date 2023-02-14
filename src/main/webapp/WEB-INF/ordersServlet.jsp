@@ -1,5 +1,16 @@
-<%@ page import="java.util.Date" %>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="dao.OrderDao" %>
+<%@ page import="java.util.List" %>
+<%@ page import="models.Order" %>
+<%@ page import="java.util.ArrayList" %>
+<<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%
+    OrderDao orderDao = new OrderDao();
+    List<Order> list = orderDao.getOrders();
+    //List<Order> list = new ArrayList<>();
+
+%>
+
+
 <html>
 <head>
     <title>Аптека - главная</title>
@@ -25,7 +36,7 @@
             <div class="position-sticky pt-3 sidebar-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">
+                        <a class="nav-link" aria-current="page" href="/">
                             Главная
                         </a>
                     </li>
@@ -41,12 +52,12 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/medicaments">
-                            Медикаменты
+                            Медикамент
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/orders">
-                            Заказы
+                        <a class="nav-link activ" aria-current="page" href="/orders">
+                            Заказ
                         </a>
                     </li>
                     <li class="nav-item">
@@ -58,7 +69,30 @@
             </div>
         </nav>
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <h1><%=this.getClass().getName()%></h1>
+            <table class="table">
+                <tr>
+                    <td>Адрес</td>
+                    <td>Медикамент</td>
+                    <td>Редактировать</td>
+                    <td>Удалить</td>
+                </tr>
+                <% for (Order order : list) { %>
+                <tr>
+                    <td><%=order.getAdress()%></td>
+                    <td><%=order.getClass()%></td>
+                    <td>
+                        <a class="item-edit" href="/order/edit?orderId=<%=order.getId()%>">
+                            Редактировать
+                        </a>
+                    </td>
+                    <td>
+                        <a class="order-delete-link" href="#" id="<%=order.getId()%>">
+                            Удалить
+                        </a>
+                    </td>
+                </tr>
+                <% } %>
+            </table>
         </main>
     </div>
 </div>

@@ -1,5 +1,14 @@
-<%@ page import="java.util.Date" %>
+<%@ page import="dao.MedicamentDao" %>
+<%@ page import="java.util.List" %>
+<%@ page import="models.Medicament" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%
+    MedicamentDao medicamentDao = new MedicamentDao();
+    List<Medicament> list = medicamentDao.getMedicaments();
+
+%>
+
+
 <html>
 <head>
     <title>Аптека - главная</title>
@@ -25,7 +34,7 @@
             <div class="position-sticky pt-3 sidebar-sticky">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">
+                        <a class="nav-link" aria-current="page" href="/">
                             Главная
                         </a>
                     </li>
@@ -40,13 +49,13 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/medicaments">
-                            Медикаменты
+                        <a class="nav-link activ" aria-current="page" href="/medicaments">
+                            Медикамент
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="/orders">
-                            Заказы
+                            Заказ
                         </a>
                     </li>
                     <li class="nav-item">
@@ -58,7 +67,36 @@
             </div>
         </nav>
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <h1><%=this.getClass().getName()%></h1>
+            <table class="table">
+                <tr>
+                    <td>Наименование</td>
+                    <td>МНН</td>
+                    <td>Название производителя</td>
+                    <td>Доза</td>
+                    <td>Количество</td>
+                    <td>Редактировать</td>
+                    <td>Удалить</td>
+                </tr>
+                <% for (Medicament  medicament : list) { %>
+                <tr>
+                    <td><%=medicament.getName()%></td>
+                    <td><%=medicament.getSubstance()%></td>
+                    <td><%=medicament.getProducer()%></td>
+                    <td><%=medicament.getDose()%></td>
+                    <td><%=medicament.getNumber()%></td>
+                    <td>
+                        <a class="item-edit" href="/medicament/edit?medicamentId=<%=medicament.getId()%>">
+                            Редактировать
+                        </a>
+                    </td>
+                    <td>
+                        <a class="medicament-delete-link" href="#" id="<%=medicament.getId()%>">
+                            Удалить
+                        </a>
+                    </td>
+                </tr>
+                <% } %>
+            </table>
         </main>
     </div>
 </div>

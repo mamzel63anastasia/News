@@ -28,7 +28,7 @@ public class OrderDao {
 
         List<Order> list =  session.createQuery("from Order").list();
 
-        session.beginTransaction().commit();
+        session.getTransaction().commit();
         session.close();
         return list;
     }
