@@ -8,6 +8,7 @@ import utils.HibernateUtil;
 import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 public class UserDao {
     @Transactional
@@ -65,5 +66,25 @@ public class UserDao {
         session.close();
     }
 
+    @Transactional
+    public void updateUser(User user) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.merge(user);
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    @Transactional
+    public void deleteUser(UUID id) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("from User where id=:id");
+        query.setParameter("id",id);
+        User user = (User) query.uniqueResult();
+        session.delete(user);
+        session.getTransaction().commit();
+        session.close();
+    }
 
 }

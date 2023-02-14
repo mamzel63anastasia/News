@@ -1,12 +1,25 @@
-<%@ page import="java.util.Date" %>
 <%@ page import="dao.UserDao" %>
 <%@ page import="models.User" %>
-<%@ page import="org.w3c.dom.stylesheets.LinkStyle" %>
 <%@ page import="java.util.List" %>
+<%@ page import="utils.UserUtils" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%
+  String messageInfo = null;
+
+  if (session.getAttribute("messageInfo") != null) {
+    messageInfo = (String) session.getAttribute("messageInfo");
+    session.removeAttribute("messageInfo");
+  }
+
   UserDao userDao = new UserDao();
   List<User> list = userDao.getUsers();
+
+  String param = request.getParameter("param");
+  User editUser = null;
+  if (param != null && request.getParameter("userId") != null) {
+    String userId = request.getParameter("userId");
+    editUser = UserUtils.findUserByIdOrNull(list, userId);
+  }
 %>
 
 <html>
@@ -70,25 +83,66 @@
       <table class="table table-striped">
         <tr>
           <th>Пользователь</th>
-          <th>Редактировать</th>
-          <th>Удалить</th>
+          <th>Опции</th>
         </tr>
         <% for ( User user : list) {%>
         <tr>
           <td><%=user.getLogin()%></td>
           <td>
-            <a class="item-edit" href="/user/edit?userId=<%=user.getId()%>">
-              Редактировать
+            <a class="btn btn-light" href="/users?param=userEdit&userId=<%=user.getId()%>" title="редактировать">
+              <i class="bi bi-pencil-square"></i>
             </a>
-          </td>
-          <td>
-            <a class="user-delete-link" href="#" id="<%=user.getId()%>">
-              Удалить
+            <a class="btn btn-light" href="/users?userDelete=<%=user.getId()%>" title="удалить">
+              <i class="bi bi-x-square"></i>
             </a>
           </td>
         </tr>
         <% } %>
       </table>
+      <div align="right">
+        <a class="btn btn-secondary" href="/users?param=userAdd"><i class="bi bi-person-add"></i> Добавить пользователя</a>
+      </div>
+      <hr>
+
+
+      <% if (param != null && param.equals("userEdit") && editUser != null) {%>
+      <form class="row g-3" method="PUT">
+        <input type="hidden" name="userId" value="<%=editUser.getId()%>">
+        <div class="col-auto">
+          <label for="staticEmail2" class="visually-hidden">Логин</label>
+          <input type="text" readonly class="form-control-plaintext" name="login" id="staticEmail2" value="<%=editUser.getLogin()%>">
+        </div>
+        <div class="col-auto">
+          <label for="inputPassword2" class="visually-hidden">Пароль</label>
+          <input type="password" class="form-control" id="inputPassword2" placeholder="Пароль">
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-primary mb-3">Сохранить</button>
+        </div>
+      </form>
+      <%}%>
+
+      <% if (param != null && param.equals("userAdd")) {%>
+      <form class="row g-3" method="post">
+        <div class="col-auto">
+          <label for="staticEmail3" class="visually-hidden">Логин</label>
+          <input type="text" class="form-control" id="staticEmail3" name="login" value="">
+        </div>
+        <div class="col-auto">
+          <label for="inputPassword3" class="visually-hidden">Пароль</label>
+          <input type="password" class="form-control" id="inputPassword3" placeholder="Пароль" name="pass">
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-primary mb-3">Сохранить</button>
+        </div>
+      </form>
+      <%}%>
+
+      <div class="alert alert-danger alert-dismissible fade <%=messageInfo != null ? "show" : ""%>" role="alert">
+        <%=messageInfo%>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+
     </main>
   </div>
 </div>
