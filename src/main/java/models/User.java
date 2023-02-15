@@ -10,13 +10,8 @@ import java.util.UUID;
 @Table(name = "users", schema = "public")
 public class User {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
-    @Column(name = "id", unique = true, updatable = false, nullable = false)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Basic
     @Column(name = "login", updatable = false, nullable = false)
@@ -28,18 +23,14 @@ public class User {
 
     @Basic
     @Column(name = "fio", nullable = false)
-    private String FIO;
+    private String fio;
 
 
-
-
-
-
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -59,19 +50,11 @@ public class User {
         this.password = password;
     }
 
-    public Order getOrder() {
-        return order;
+    public String getFio() {
+        return fio;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
-    public String getFIO() {
-        return FIO;
-    }
-
-    public void setFIO(String FIO) {
-        this.FIO = FIO;
+    public void setFio(String FIO) {
+        this.fio = FIO;
     }
 }

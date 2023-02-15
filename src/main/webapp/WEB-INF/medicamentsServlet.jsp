@@ -6,13 +6,22 @@
     MedicamentDao medicamentDao = new MedicamentDao();
     List<Medicament> list = medicamentDao.getMedicaments();
 
+    String param = request.getParameter("param");
+
+    Medicament edit = null;
+
+    if (param != null && request.getParameter("id") != null) {
+        Long id = Long.parseLong(request.getParameter("id"));
+        edit = medicamentDao.getMedicament(id);
+    }
+
 %>
 
 
 <html>
 <head>
-    <title>Аптека - главная</title>
-    <%@include file="header-include.html" %>
+    <title>Аптека - медикаменты</title>
+    <%@include file="include/header.jsp" %>
 </head>
 <body>
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
@@ -30,52 +39,16 @@
 </header>
 <div class="container-fluid">
     <div class="row">
-        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-            <div class="position-sticky pt-3 sidebar-sticky">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/">
-                            Главная
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/producers">
-                            Производители
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/substances">
-                            Активные вещества
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link activ" aria-current="page" href="/medicaments">
-                            Медикамент
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/orders">
-                            Заказ
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/users">
-                            Пользователи
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+        <%@include file="include/menu.jsp" %>
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <table class="table">
+            <table class="table table-striped">
                 <tr>
-                    <td>Наименование</td>
-                    <td>МНН</td>
-                    <td>Название производителя</td>
-                    <td>Доза</td>
-                    <td>Количество</td>
-                    <td>Редактировать</td>
-                    <td>Удалить</td>
+                    <th>Наименование</th>
+                    <th>МНН</th>
+                    <th>Название производителя</th>
+                    <th>Доза</th>
+                    <th>Количество</th>
+                    <th>Опции</th>
                 </tr>
                 <% for (Medicament  medicament : list) { %>
                 <tr>
@@ -100,6 +73,6 @@
         </main>
     </div>
 </div>
-<%@include file="footer-include.html" %>
+<%@include file="include/footer.jsp" %>
 </body>
 </html>

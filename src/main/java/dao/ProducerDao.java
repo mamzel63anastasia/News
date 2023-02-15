@@ -13,7 +13,7 @@ import java.util.UUID;
 public class ProducerDao {
 
     @Transactional
-    public Producer getProducer(UUID id) {
+    public Producer getProducer(Long id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("from Producer where id =:id ");
@@ -55,7 +55,7 @@ public class ProducerDao {
     }
 
     @Transactional
-    public void deleteProducer(UUID id) {
+    public void deleteProducer(Long id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("from Producer where id=:id");

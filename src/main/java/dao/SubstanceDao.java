@@ -1,6 +1,7 @@
 package dao;
 
 import models.Substance;
+import models.User;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import utils.HibernateUtil;
@@ -13,13 +14,15 @@ import java.util.UUID;
 public class SubstanceDao {
 
     @Transactional
-    public Substance getSubstance(UUID id) {
+    public Substance getSubstance(Long id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("from Substance where id=: id");
-        query.setParameter("id", id);
+        Query query = session.createQuery("from Substance where id=:id  ")
+                .setParameter("id", id);
+
         Substance substance = (Substance) query.uniqueResult();
         session.getTransaction().commit();
+        session.close();
         return substance;
     }
 
@@ -54,7 +57,7 @@ public class SubstanceDao {
     }
 
     @Transactional
-    public void deleteSubstance(UUID id) {
+    public void deleteSubstance(Long id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("from Substance where id=:id");

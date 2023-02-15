@@ -8,31 +8,32 @@ import utils.HibernateUtil;
 import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 public class UserDao {
     @Transactional
-    public List<User> getUsers(String login, String password) {
+    public User getUser(String login, String password) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
+        Query query = session.createQuery("from User where login=:login and password=:password ")
+                .setParameter("login", login)
+                .setParameter("password", password);
 
-        try {
-            Query userQuery = session.createQuery("from User where login=:login and password=:password")
-                    .setParameter("login", login)
-                    .setParameter("password", password);
+        User user = (User) query.uniqueResult();
+        session.getTransaction().commit();
+        session.close();
+        return user;
+    }
 
-            List<User> userList = (List<User>) userQuery.list();
+    public User getUser(Long uuid) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        Query query = session.createQuery("from User where id=:id  ")
+                .setParameter("id", uuid);
 
-            session.getTransaction().commit();
-            session.close();
-
-            return userList;
-        } catch (Exception e) {
-            e.printStackTrace();
-            session.getTransaction().commit();
-            session.close();
-            return Collections.emptyList();
-        }
+        User user = (User) query.uniqueResult();
+        session.getTransaction().commit();
+        session.close();
+        return user;
     }
 
     @Transactional
@@ -76,7 +77,7 @@ public class UserDao {
     }
 
     @Transactional
-    public void deleteUser(UUID id) {
+    public void deleteUser(Long id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("from User where id=:id");

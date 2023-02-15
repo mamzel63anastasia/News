@@ -1,26 +1,17 @@
 <%@ page import="dao.ProducerDao" %>
 <%@ page import="models.Producer" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.UUID" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%
     ProducerDao producerDao = new ProducerDao();
     List<Producer> list = producerDao.getProducers();
-
-    String messageInfo = null;
-
-    if (session.getAttribute("messageInfo") != null) {
-        messageInfo = (String) session.getAttribute("messageInfo");
-        session.removeAttribute("messageInfo");
-    }
 
     String param = request.getParameter("param");
 
     Producer producerEdit = null;
 
     if (param != null && request.getParameter("producerId") != null) {
-        UUID uuid = UUID.fromString(request.getParameter("producerId"));
-        producerEdit = producerDao.getProducer(uuid);
+        producerEdit = producerDao.getProducer(Long.parseLong(request.getParameter("producerId")));
     }
 
 %>
@@ -28,8 +19,8 @@
 
 <html>
 <head>
-    <title>Аптека - главная</title>
-    <%@include file="header-include.html" %>
+    <title>Аптека - производители</title>
+    <%@include file="include/header.jsp" %>
 </head>
 <body>
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
@@ -47,42 +38,7 @@
 </header>
 <div class="container-fluid">
     <div class="row">
-        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-            <div class="position-sticky pt-3 sidebar-sticky">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/">
-                            Главная
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/producers">
-                            Производители
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/substances">
-                            Активные вещества
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/medicaments">
-                            Медикаменты
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/orders">
-                            Заказы
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/users">
-                            Пользователи
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+        <%@include file="include/menu.jsp" %>
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <table class="table table-striped">
                 <tr>
@@ -99,8 +55,8 @@
                         <a class="btn btn-light" href="/producers?param=producerEdit&producerId=<%=producer.getId()%>" title="редактировать">
                             <i class="bi bi-pencil-square"></i>
                         </a>
-                        <form method="delete" action="/producers">
-                            <input type="hidden" name="producerDelete" value="<%=producer.getId()%>">
+                        <form method="delete">
+                            <input type="hidden" name="id" value="<%=producer.getId()%>">
                             <button class="btn btn-light" type="submit"><i class="bi bi-x-square"></i></button>
                         </form>
                     </td>
@@ -108,7 +64,7 @@
                 <% } %>
             </table>
             <div align="right">
-                <a class="btn btn-secondary" href="/producers?param=producerAdd"><i class="bi bi-person-add"></i> Добавить пользователя</a>
+                <a class="btn btn-secondary" href="/producers?param=producerAdd"><i class="bi bi-person-add"></i> Добавить производителя</a>
             </div>
             <hr>
 
@@ -129,8 +85,8 @@
             <%}%>
 
             <% if (param != null && param.equals("producerEdit")) {%>
-            <form class="row g-3" method="PUT">
-                <input type="hidden" name="producerId" value="<%=producerEdit.getId()%>">
+            <form class="row g-3" method="put">
+                <input type="hidden" name="id" value="<%=producerEdit.getId()%>">
                 <div class="col-auto">
                     <label for="staticEmail2" class="visually-hidden">Название</label>
                     <input type="text" class="form-control" id="staticEmail2" name="name" value="<%=producerEdit.getName()%>" placeholder="Укажите название">
@@ -144,17 +100,10 @@
                 </div>
             </form>
             <%}%>
-
-
-
-            <div class="alert alert-danger alert-dismissible fade <%=messageInfo != null ? "show" : ""%>" role="alert">
-                <%=messageInfo%>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
         </main>
     </div>
 </div>
-<%@include file="footer-include.html" %>
+<%@include file="include/footer.jsp" %>
 </body>
 </html>
 

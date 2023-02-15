@@ -1,19 +1,26 @@
-<%@ page import="dao.SubstanceDao" %>
 <%@ page import="models.Substance" %>
+<%@ page import="dao.SubstanceDao" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %>
+
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%
     SubstanceDao substanceDao = new SubstanceDao();
-   List<Substance> list = substanceDao.getSubstances();
-   // List<Substance> list = new ArrayList<>();
+    List<Substance> list = substanceDao.getSubstances();
+
+    String param = request.getParameter("param");
+    Substance edit = null;
+
+    if (param != null && request.getParameter("id") != null) {
+        Long id = Long.parseLong(request.getParameter("id"));
+        edit = substanceDao.getSubstance(id);
+    }
 %>
 
 
 <html>
 <head>
-    <title>Аптека - главная</title>
-    <%@include file="header-include.html" %>
+    <title>Аптека - активные вещества</title>
+    <%@include file="include/header.jsp" %>
 </head>
 <body>
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
@@ -31,70 +38,75 @@
 </header>
 <div class="container-fluid">
     <div class="row">
-        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-            <div class="position-sticky pt-3 sidebar-sticky">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/">
-                            Главная
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/producers">
-                            Производители
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/substances">
-                            Активные вещества
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/medicaments">
-                            Медикаменты
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/orders">
-                            Заказы
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/users">
-                            Пользователи
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+        <%@include file="include/menu.jsp" %>
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <table class="table table-striped">
                 <tr>
                     <th>МНН</th>
                     <th>Фармгруппа</th>
-                    <th>Редактировать</th>
-                    <th>Удалить</th>
+                    <th>Опции</th>
                 </tr>
-                <% for (Substance  substance : list) { %>
+                <% for (Substance item : list) {%>
                 <tr>
-                    <td><%=substance.getMnn()%></td>
-                    <td><%=substance.getFarmgroup()%></td>
+                    <td><%=item.getMnn()%></td>
+                    <td><%=item.getFarmGroup()%></td>
                     <td>
-                        <a class="item-edit" href="/substance/edit?substanceId=<%=substance.getId()%>">
-                            Редактировать
+                        <a class="btn btn-light" href="/substances?param=edit&id=<%=item.getId()%>"
+                           title="редактировать">
+                            <i class="bi bi-pencil-square"></i>
                         </a>
-                    </td>
-                    <td>
-                        <a class="substance-delete-link" href="#" id="<%=substance.getId()%>">
-                            Удалить
-                        </a>
+                        <form method="delete">
+                            <input type="hidden" name="id" value="<%=item.getId()%>">
+                            <button type="submit" class="btn btn-light" title="удалить">
+                                <i class="bi bi-x-square"></i>
+                            </button>
+                        </form>
                     </td>
                 </tr>
                 <% } %>
             </table>
+            <div align="right">
+                <a class="btn btn-secondary" href="/substances?param=add">
+                    <i class="bi bi-person-add"></i> Добавить запись</a>
+            </div>
+            <hr>
+            <% if (param != null && param.equals("edit") && edit != null) {%>
+            <form class="row g-3" method="put">
+                <input type="hidden" name="id" value="<%=edit.getId()%>">
+                <div class="col-auto">
+                    <label for="staticEmail1" class="visually-hidden">МНН</label>
+                    <input type="text" class="form-control" name="mnn" id="staticEmail1"
+                           value="<%=edit.getMnn()%>" placeholder="МНН">
+                </div>
+                <div class="col-auto">
+                    <label for="staticEmail2" class="visually-hidden">Фармгруппа</label>
+                    <input type="text" class="form-control" name="farmGroup" id="staticEmail2"
+                           value="<%=edit.getFarmGroup()%>" placeholder="Фармгруппа">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary mb-3">Сохранить</button>
+                </div>
+            </form>
+            <%}%>
+
+            <% if (param != null && param.equals("add")) {%>
+            <form class="row g-3" method="post">
+                <div class="col-auto">
+                    <label for="staticEmail0" class="visually-hidden">МНН</label>
+                    <input type="text" class="form-control" name="mnn" id="staticEmail0" placeholder="МНН">
+                </div>
+                <div class="col-auto">
+                    <label for="staticEmail3" class="visually-hidden">Фармгруппа</label>
+                    <input type="text" class="form-control" id="staticEmail3" name="farmGroup" placeholder="Фармгруппа">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary mb-3">Сохранить</button>
+                </div>
+            </form>
+            <%}%>
         </main>
     </div>
 </div>
-<%@include file="footer-include.html" %>
+<%@include file="include/footer.jsp" %>
 </body>
 </html>

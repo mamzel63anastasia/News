@@ -1,36 +1,28 @@
 package models;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
-import java.util.UUID;
 
 @Entity
 @Table(name = "substance", schema = "public")
 public class Substance {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
-    @Column(name = "id", unique = true, updatable = false, nullable = false)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Basic
     @Column(name = "mnn", nullable = false)
     private  String mnn;
 
     @Basic
-    @Column(name = "farmgroup", nullable = false)
-    private  String  farmgroup;
+    @Column(name = "farmGroup", nullable = false)
+    private  String farmGroup;
 
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -43,11 +35,11 @@ public class Substance {
         this.mnn = mnn;
     }
 
-    public String getFarmgroup() {
-        return farmgroup;
+    public String getFarmGroup() {
+        return farmGroup;
     }
 
-    public void setFarmgroup(String farmgroup) {
-        this.farmgroup = farmgroup;
+    public void setFarmGroup(String farmGroup) {
+        this.farmGroup = farmGroup;
     }
 }

@@ -1,16 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%
-    String messageInfo = null;
-
-    if (session.getAttribute("messageInfo") != null) {
-        messageInfo = (String) session.getAttribute("messageInfo");
-        session.removeAttribute("messageInfo");
-    }
-%>
 <html>
 <head>
     <title>Аптека - авторизация</title>
-    <%@include file="header-include.html"%>
+    <%@include file="include/header.jsp" %>
 </head>
 <body class="text-center">
 <style>
@@ -38,20 +30,14 @@
             <label for="floatingInput">Введите логин</label>
         </div>
         <div class="form-floating">
-            <input type="password" class="form-control" id="floatingPassword" placeholder="Пароль" name="pass">
+            <input type="password" class="form-control" id="floatingPassword" placeholder="Пароль" name="password">
             <label for="floatingPassword">Введите пароль</label>
         </div>
         <button class="w-100 btn btn-lg btn-primary" type="submit">Войти</button>
 
         <a href="/registration" class="btn btn-lg btn-success">Регистрация</a>
-
-        <div class="alert alert-danger alert-dismissible fade <%=messageInfo != null ? "show" : ""%>" role="alert">
-            <%=messageInfo%>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
     </form>
 </main>
-
-<%@include file="footer-include.html"%>
+<%@include file="include/footer.jsp" %>
 </body>
 </html>

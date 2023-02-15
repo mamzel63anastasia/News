@@ -12,7 +12,7 @@ import java.util.UUID;
 public class MedicamentDao {
 
     @Transactional
-    public  Medicament getMedicament(UUID id) {
+    public  Medicament getMedicament(Long id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("from Medicament where id=: id");
@@ -52,7 +52,7 @@ public class MedicamentDao {
     }
 
     @Transactional
-    public void deleteMedicament(UUID id){
+    public void deleteMedicament(Long id){
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("from Medicament where id=: id");

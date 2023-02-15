@@ -10,21 +10,12 @@ import java.util.UUID;
 @Table( name = " medicament", schema = "public")
 public class Medicament {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
-    @Column (name = "id", unique = true, updatable = false, nullable = false)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Basic
     @Column(name = "name", nullable = false)
     private  String name;
-
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.EAGER)
-    @JoinColumn(name = "producer_id")
-    private Producer producer;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn( name = "substance_id")
@@ -38,11 +29,11 @@ public class Medicament {
     @Column(name = "number", nullable = false)
     private int number;
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -68,14 +59,6 @@ public class Medicament {
 
     public void setNumber(int number) {
         this.number = number;
-    }
-
-    public Producer getProducer() {
-        return producer;
-    }
-
-    public void setProducer(Producer producer) {
-        this.producer = producer;
     }
 
     public Substance getSubstance() {

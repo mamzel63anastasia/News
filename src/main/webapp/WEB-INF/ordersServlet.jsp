@@ -10,7 +10,6 @@
 
 %>
 
-
 <html>
 <head>
     <title>Аптека - главная</title>
@@ -96,6 +95,6 @@
         </main>
     </div>
 </div>
-<%@include file="footer-include.html" %>
+<%@include file="include/footer-include.html" %>
 </body>
 </html>
