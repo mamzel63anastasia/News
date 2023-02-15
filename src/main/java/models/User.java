@@ -26,11 +26,12 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-//    @JoinColumn(name = "order_id")
-@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.EAGER)
-@JoinColumn( name = "order_id")
-    private Order order;
+    @Basic
+    @Column(name = "fio", nullable = false)
+    private String FIO;
+
+
+
 
 
 
@@ -64,5 +65,13 @@ public class User {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    public String getFIO() {
+        return FIO;
+    }
+
+    public void setFIO(String FIO) {
+        this.FIO = FIO;
     }
 }

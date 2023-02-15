@@ -49,11 +49,12 @@ public class ProducerDao {
     public void updateProducer(Producer producer) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        session.update(producer);
+        session.merge(producer);
         session.getTransaction().commit();
         session.close();
     }
 
+    @Transactional
     public void deleteProducer(UUID id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();

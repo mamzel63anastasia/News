@@ -1,10 +1,28 @@
 <%@ page import="dao.ProducerDao" %>
 <%@ page import="models.Producer" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.UUID" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%
     ProducerDao producerDao = new ProducerDao();
     List<Producer> list = producerDao.getProducers();
+
+    String messageInfo = null;
+
+    if (session.getAttribute("messageInfo") != null) {
+        messageInfo = (String) session.getAttribute("messageInfo");
+        session.removeAttribute("messageInfo");
+    }
+
+    String param = request.getParameter("param");
+
+    Producer producerEdit = null;
+
+    if (param != null && request.getParameter("producerId") != null) {
+        UUID uuid = UUID.fromString(request.getParameter("producerId"));
+        producerEdit = producerDao.getProducer(uuid);
+    }
+
 %>
 
 
@@ -70,26 +88,69 @@
                 <tr>
                     <th>Наименование</th>
                     <th>Страна изготовитель</th>
-                    <th>Редактировать</th>
-                    <th>Удалить</th>
+                    <th>Опции</th>
+
                 </tr>
                 <% for (Producer producer : list) { %>
                 <tr>
                     <td><%=producer.getName()%></td>
                     <td><%=producer.getCountry()%></td>
                     <td>
-                        <a class="item-edit" href="/producer/edit?producerId=<%=producer.getId()%>">
-                            Редактировать
+                        <a class="btn btn-light" href="/producers?param=producerEdit&producerId=<%=producer.getId()%>" title="редактировать">
+                            <i class="bi bi-pencil-square"></i>
                         </a>
-                    </td>
-                    <td>
-                        <a class="producer-delete-link" href="#" id="<%=producer.getId()%>">
-                            Удалить
-                        </a>
+                        <form method="delete" action="/producers">
+                            <input type="hidden" name="producerDelete" value="<%=producer.getId()%>">
+                            <button class="btn btn-light" type="submit"><i class="bi bi-x-square"></i></button>
+                        </form>
                     </td>
                 </tr>
                 <% } %>
             </table>
+            <div align="right">
+                <a class="btn btn-secondary" href="/producers?param=producerAdd"><i class="bi bi-person-add"></i> Добавить пользователя</a>
+            </div>
+            <hr>
+
+            <% if (param != null && param.equals("producerAdd")) {%>
+            <form class="row g-3" method="post">
+                <div class="col-auto">
+                    <label for="staticEmail3" class="visually-hidden">Название</label>
+                    <input type="text" class="form-control" id="staticEmail3" name="name" value="" placeholder="Укажите название">
+                </div>
+                <div class="col-auto">
+                    <label for="inputPassword3" class="visually-hidden">Страна</label>
+                    <input type="text" class="form-control" id="inputPassword3" placeholder="Укажите страну" name="country">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary mb-3">Сохранить</button>
+                </div>
+            </form>
+            <%}%>
+
+            <% if (param != null && param.equals("producerEdit")) {%>
+            <form class="row g-3" method="PUT">
+                <input type="hidden" name="producerId" value="<%=producerEdit.getId()%>">
+                <div class="col-auto">
+                    <label for="staticEmail2" class="visually-hidden">Название</label>
+                    <input type="text" class="form-control" id="staticEmail2" name="name" value="<%=producerEdit.getName()%>" placeholder="Укажите название">
+                </div>
+                <div class="col-auto">
+                    <label for="inputPassword2" class="visually-hidden">Страна</label>
+                    <input type="text" class="form-control" id="inputPassword2" placeholder="Укажите страну" name="country" value="<%=producerEdit.getCountry()%>">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary mb-3">Сохранить</button>
+                </div>
+            </form>
+            <%}%>
+
+
+
+            <div class="alert alert-danger alert-dismissible fade <%=messageInfo != null ? "show" : ""%>" role="alert">
+                <%=messageInfo%>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         </main>
     </div>
 </div>
