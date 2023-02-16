@@ -15,7 +15,7 @@ public class MedicamentDao {
     public  Medicament getMedicament(Long id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("from Medicament where id=: id");
+        Query query = session.createQuery("from Medicament where id =:id");
         query.setParameter("id", id);
         Medicament medicament = (Medicament) query.uniqueResult();
         session.getTransaction().commit();
@@ -55,7 +55,7 @@ public class MedicamentDao {
     public void deleteMedicament(Long id){
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("from Medicament where id=: id");
+        Query query = session.createQuery("from Medicament where id =:id");
         query.setParameter("id", id);
         Medicament medicament = (Medicament) query.uniqueResult();
         session.delete(medicament);

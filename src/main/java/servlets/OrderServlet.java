@@ -2,9 +2,7 @@ package servlets;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
-import dao.MedicamentDao;
 import dao.OrderDao;
-import models.Medicament;
 import models.Order;
 import models.OrderData;
 import utils.ResponseData;
@@ -43,7 +41,7 @@ public class OrderServlet extends HttpServlet {
             Order order = new Order();
             order.setAdress(data.getAdress());
             order.setUser(data.getUser());
-            order.setMedicaments(data.getMedicaments());
+            order.setMedicament(data.getMedicament());
 
             OrderDao orderDao = new OrderDao();
             orderDao.addOrder(order);
@@ -58,45 +56,48 @@ public class OrderServlet extends HttpServlet {
     }
 
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        /*response.setCharacterEncoding("UTF-8");
-
-        ResponseData responseData = new ResponseData();
-
-        JsonReader jsonReader = new JsonReader(request.getReader());
-        Order data = gson.fromJson(jsonReader, Order.class);
-
-        Long id = data.getId();
-
-        if(adres != null) {
-            OrderDao orderDao = new OrderDao();
-            orderDao.addOrder(data);
-            responseData.setLocation("/orders");
-        }else {
-            responseData.setMessage("Неверный набор параметров");
-        }
-        response.getWriter().print(responseData);*/
-    }
-
-    public void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        /*request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
 
         ResponseData responseData = new ResponseData();
 
         JsonReader jsonReader = new JsonReader(request.getReader());
-        Order data = gson.fromJson(jsonReader, Order.class);
+        OrderData data = gson.fromJson(jsonReader, OrderData.class);
 
-        String adres = data.getAdress();
-        String user = data.getUser();
-
-        if(adres != null) {
+        if (data.getId() != null) {
             OrderDao orderDao = new OrderDao();
-            orderDao.addOrder(data);
+            orderDao.deleteOrder(data.getId());
             responseData.setLocation("/orders");
-        }else {
+        } else {
             responseData.setMessage("Неверный набор параметров");
         }
-        response.getWriter().print(responseData);*/
 
+        response.getWriter().print(responseData);
+    }
+
+    public void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+
+        ResponseData responseData = new ResponseData();
+
+        JsonReader jsonReader = new JsonReader(request.getReader());
+        OrderData data = gson.fromJson(jsonReader, OrderData.class);
+
+        if (data.getId() != null) {
+            OrderDao orderDao = new OrderDao();
+
+            Order order = orderDao.getOrder(data.getId());
+            order.setAdress(data.getAdress());
+            order.setUser(data.getUser());
+            order.setMedicament(data.getMedicament());
+
+            orderDao.updateOrder(order);
+
+            responseData.setLocation("/orders");
+        } else {
+            responseData.setMessage("Неверный набор параметров");
+        }
+
+        response.getWriter().print(responseData);
     }
 }

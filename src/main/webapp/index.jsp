@@ -29,7 +29,7 @@
     <div class="row">
         <%@include file="WEB-INF/include/menu.jsp" %>
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            asdasd
+            Необходимо выбрать раздел
         </main>
     </div>
 </div>

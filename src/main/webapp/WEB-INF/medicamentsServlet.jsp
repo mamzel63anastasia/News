@@ -106,7 +106,7 @@
                     </select>
                 </div>
                 <div class="mb-3">
-                    <select name="producer">
+                    <select name="producer" class="form-control">
                         <% for (Producer item : producerDao.getProducers()) {%>
                         <option value="<%=item.getId()%>"><%=item.getName()%></option>
                         <%}%>
@@ -142,7 +142,7 @@
                     </select>
                 </div>
                 <div class="mb-3">
-                    <select name="producer">
+                    <select name="producer" class="form-control">
                         <% for (Producer item : producerDao.getProducers()) {%>
                         <option value="<%=item.getId()%>" <%=item.getId().equals(edit.getProducer().getId()) ? "selected" : ""%>>
                             <%=item.getName()%>

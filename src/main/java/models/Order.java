@@ -2,7 +2,6 @@ package models;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table( name = "order", schema = "public")
@@ -17,19 +16,13 @@ public class Order {
     @Column(name = "adress", nullable = false)
     private String adress;
 
-//    @ManyToMany(cascade = {CascadeType.ALL})
-////    @JoinTable( name = "medicament_order",
-////     joinColumns = { @JoinColumn(name = "order_id")},
-////    inverseJoinColumns = { @JoinColumn( name = "medicament_id")})
-////    Set<Medicament> medicaments = new HashSet<>()
-
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn( name = "user_id")
     private User user;
 
-    @ManyToMany(mappedBy = "order")
-    private List<Medicament> medicaments;
-
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @JoinColumn( name = "medicament_id")
+    private Medicament medicament;
 
     public String getAdress() {
         return adress;
@@ -55,11 +48,11 @@ public class Order {
         this.user = user;
     }
 
-    public List<Medicament> getMedicament() {
-        return medicaments;
+    public Medicament getMedicament() {
+        return medicament;
     }
 
-    public void setMedicaments(List<Medicament> medicaments) {
-        this.medicaments = medicaments;
+    public void setMedicament(Medicament medicaments) {
+        this.medicament = medicaments;
     }
 }

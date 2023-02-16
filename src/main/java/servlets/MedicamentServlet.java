@@ -82,14 +82,17 @@ public class MedicamentServlet extends HttpServlet {
         JsonReader jsonReader = new JsonReader(request.getReader());
         MedicamentData data = gson.fromJson(jsonReader, MedicamentData.class);
 
-        Medicament medicament = new Medicament();
+        MedicamentDao medicamentDao = new MedicamentDao();
+
+        Medicament medicament = medicamentDao.getMedicament(data.getId());
         medicament.setNumber(data.getNumber());
         medicament.setName(data.getName());
         medicament.setDose(data.getDose());
         medicament.setProducer(data.getProducer());
         medicament.setSubstance(data.getSubstance());
 
-        new MedicamentDao().addMedicament(medicament);
+        medicamentDao.updateMedicament(medicament);
+
         responseData.setLocation("/medicaments");
 
         response.getWriter().print(responseData);

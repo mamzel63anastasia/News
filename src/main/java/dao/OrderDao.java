@@ -1,14 +1,13 @@
 package dao;
 
+import models.Medicament;
 import models.Order;
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import utils.HibernateUtil;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.UUID;
 
 public class OrderDao {
 
@@ -16,7 +15,7 @@ public class OrderDao {
     public Order getOrder(Long id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("from Order where id=: id");
+        Query query = session.createQuery("from Order where id =:id");
         query.setParameter("id", id);
         Order order = (Order) query.uniqueResult();
         session.getTransaction().commit();
@@ -29,7 +28,7 @@ public class OrderDao {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
 
-        List<Order> list =  session.createQuery("from Order").list();
+        List<Order> list = session.createQuery("from Order").list();
 
         session.getTransaction().commit();
         session.close();
@@ -37,7 +36,7 @@ public class OrderDao {
     }
 
     @Transactional
-    public void  addOrder (Order order) {
+    public void addOrder(Order order) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         session.save(order);
@@ -45,8 +44,8 @@ public class OrderDao {
         session.close();
     }
 
-@Transactional
-    public void updateOrder (Order order) {
+    @Transactional
+    public void updateOrder(Order order) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         session.merge(order);
@@ -54,15 +53,15 @@ public class OrderDao {
         session.close();
     }
 
-@Transactional
+    @Transactional
     public void deleteOrder(Long id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Query query = session.createQuery("from Order where id=:id");
+        Query query = session.createQuery("from Order where id =:id");
         query.setParameter("id", id);
-        Order order = (Order) query.uniqueResult();
-        session.delete(order);
-        session.beginTransaction().commit();
+        Order medicament = (Order) query.uniqueResult();
+        session.delete(medicament);
+        session.getTransaction().commit();
         session.close();
     }
 }

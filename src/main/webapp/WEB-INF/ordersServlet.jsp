@@ -1,16 +1,12 @@
-<%@ page import="dao.OrderDao" %>
 <%@ page import="java.util.List" %>
-<%@ page import="models.Order" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="models.Medicament" %>
-<%@ page import="dao.UserDao" %>
-<%@ page import="dao.MedicamentDao" %>
-<%@ page import="models.User" %>
-<<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="dao.*" %>
+<%@ page import="models.*" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%
-    OrderDao orderDao = new OrderDao();
-    UserDao userDao = new UserDao();
     MedicamentDao medicamentDao = new MedicamentDao();
+    UserDao userDao = new UserDao();
+    OrderDao orderDao = new OrderDao();
+
     List<Order> list = orderDao.getOrders();
 
     String param = request.getParameter("param");
@@ -21,12 +17,10 @@
         Long id = Long.parseLong(request.getParameter("id"));
         edit = orderDao.getOrder(id);
     }
-
 %>
-
 <html>
 <head>
-    <title>Аптека - заказы</title>
+    <title>Аптека - медикаменты</title>
     <%@include file="include/header.jsp" %>
 </head>
 <body>
@@ -61,12 +55,7 @@
                     <td><%=item.getUser().getFio()%>
                     </td>
                     <td>
-                        <%
-                        for (Medicament med : item.getMedicament()) {%>
-                        <div>
-                            <%=med.getName()%> | <%=med.getNumber()%>
-                        </div>
-                        <%}%>
+                        <%=item.getMedicament().getName()%> | <%=item.getMedicament().getNumber()%>
                     </td>
                     <td>
                         <a class="btn btn-light" href="/orders?param=edit&id=<%=item.getId()%>"
@@ -95,16 +84,47 @@
                     <input class="form-control" placeholder="Наименование" name="adress">
                 </div>
                 <div class="mb-3">
-                    <select name="user">
+                    <select name="user" class="form-control">
                         <%for (User item : userDao.getUsers()) {%>
                         <option value="<%=item.getId()%>"><%=item.getFio()%></option>
                         <%}%>
                     </select>
                 </div>
                 <div class="mb-3">
-                    <select multiple name="medicaments">
+                    <select name="medicament" class="form-control">
                         <%for (Medicament item : medicamentDao.getMedicaments()){%>
                         <option value="<%=item.getId()%>"><%=item.getName()%></option>
+                        <%}%>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <input type="submit" class="form-control" value="Добавить">
+                </div>
+            </form>
+            <%}%>
+
+            <% if (param != null && param.equals("edit") && edit != null) {%>
+            <form method="put">
+                <input type="hidden" name="id" value="<%=edit.getId()%>">
+                <div class="mb-3">
+                    <input class="form-control" placeholder="Наименование" name="adress" value="<%=edit.getAdress()%>">
+                </div>
+                <div class="mb-3">
+                    <select name="user" class="form-control">
+                        <%for (User item : userDao.getUsers()) {%>
+                        <option value="<%=item.getId()%>" <%=item.getId().equals(edit.getUser().getId()) ? "selected" : ""%>>
+                            <%=item.getFio()%>
+                        </option>
+                        <%}%>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <select name="medicament" class="form-control">
+                        <%for (Medicament item : medicamentDao.getMedicaments()){%>
+                        <option value="<%=item.getId()%>" <%=item.getId().equals(edit.getMedicament().getId()) ? "selected" : ""%>>
+                            <%=item.getName()%>
+                        </option>
                         <%}%>
                     </select>
                 </div>

@@ -3,9 +3,6 @@ package models;
 import dao.MedicamentDao;
 import dao.UserDao;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class OrderData {
     private final UserDao userDao = new UserDao();
     private final MedicamentDao medicamentDao = new MedicamentDao();
@@ -13,7 +10,7 @@ public class OrderData {
     private Long id;
     private String adress;
     private Long user;
-    private List<Long> medicaments;
+    private Long medicament;
 
     public String getAdress() {
         return adress;
@@ -31,16 +28,12 @@ public class OrderData {
         this.user = user;
     }
 
-    public List<Medicament> getMedicaments() {
-        List<Medicament> list = new ArrayList<>();
-        for (Long id : medicaments) {
-            list.add(medicamentDao.getMedicament(id));
-        }
-        return list;
+    public Medicament getMedicament() {
+        return medicamentDao.getMedicament(medicament);
     }
 
-    public void setMedicaments(List<Long> medicaments) {
-        this.medicaments = medicaments;
+    public void setMedicament(Long medicament) {
+        this.medicament = medicament;
     }
 
     public Long getId() {
