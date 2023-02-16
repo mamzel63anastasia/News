@@ -44,32 +44,67 @@
             <table class="table table-striped">
                 <tr>
                     <th>Наименование</th>
-                    <th>МНН</th>
-                    <th>Название производителя</th>
                     <th>Доза</th>
-                    <th>Количество</th>
+                    <th>Номер</th>
+                    <th>Активное вещество</th>
                     <th>Опции</th>
                 </tr>
-                <% for (Medicament  medicament : list) { %>
+                <% for (Medicament item : list) {%>
                 <tr>
-                    <td><%=medicament.getName()%></td>
-                    <td><%=medicament.getSubstance()%></td>
-                    <td><%=medicament.getProducer()%></td>
-                    <td><%=medicament.getDose()%></td>
-                    <td><%=medicament.getNumber()%></td>
-                    <td>
-                        <a class="item-edit" href="/medicament/edit?medicamentId=<%=medicament.getId()%>">
-                            Редактировать
-                        </a>
+                    <td><%=item.getName()%>
+                    </td>
+                    <td><%=item.getDose()%>
+                    </td>
+                    <td><%=item.getNumber()%>
+                    </td>
+                    <td><%=item.getSubstance().getFarmGroup()%> | <%=item.getSubstance().getMnn()%>
                     </td>
                     <td>
-                        <a class="medicament-delete-link" href="#" id="<%=medicament.getId()%>">
-                            Удалить
+                        <a class="btn btn-light" href="/medicaments?param=edit&id=<%=item.getId()%>"
+                           title="редактировать">
+                            <i class="bi bi-pencil-square"></i>
                         </a>
+                        <form method="delete">
+                            <input type="hidden" name="id" value="<%=item.getId()%>">
+                            <button type="submit" class="btn btn-light" title="удалить">
+                                <i class="bi bi-x-square"></i>
+                            </button>
+                        </form>
                     </td>
                 </tr>
-                <% } %>
+                <%}%>
             </table>
+            <div align="right">
+                <a class="btn btn-secondary" href="/medicaments?param=add">
+                    <i class="bi bi-person-add"></i> Добавить запись</a>
+            </div>
+            <hr>
+
+            <% if (param != null && param.equals("add")) {%>
+            <form method="post">
+                <div class="mb-3">
+                    <input class="form-control" placeholder="Наименование" name="name">
+                </div>
+                <div class="mb-3">
+                    <input class="form-control" placeholder="Наименование" name="name">
+                </div>
+                <div class="mb-3">
+                    <input class="form-control" placeholder="Наименование" name="name">
+                </div>
+                <div class="mb-3">
+                    <%
+                        //dao
+                    %>
+                    <select name="substance" class="form-control">
+<%--                        for--%>
+                        <option value="id seb">name sub</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <input type="submit" class="form-control" value="Добавить">
+                </div>
+            </form>
+            <%}%>
         </main>
     </div>
 </div>

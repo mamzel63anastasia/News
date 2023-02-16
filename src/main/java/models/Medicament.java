@@ -13,13 +13,13 @@ public class Medicament {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Basic
-    @Column(name = "name", nullable = false)
-    private  String name;
-
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn( name = "substance_id")
     private Substance substance;
+
+    @Basic
+    @Column(name = "name", nullable = false)
+    private  String name;
 
     @Basic
     @Column(name = "dose", nullable = false)
