@@ -6,12 +6,14 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 import utils.HibernateUtil;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 
 public class OrderDao {
 
-    public Order getOrder(UUID id) {
+    @Transactional
+    public Order getOrder(Long id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("from Order where id=: id");
@@ -22,6 +24,7 @@ public class OrderDao {
         return order;
     }
 
+    @Transactional
     public List<Order> getOrders() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
@@ -33,6 +36,7 @@ public class OrderDao {
         return list;
     }
 
+    @Transactional
     public void  addOrder (Order order) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
@@ -41,7 +45,7 @@ public class OrderDao {
         session.close();
     }
 
-
+@Transactional
     public void updateOrder (Order order) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
@@ -50,8 +54,8 @@ public class OrderDao {
         session.close();
     }
 
-
-    public void deleteOrder(UUID id) {
+@Transactional
+    public void deleteOrder(Long id) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         Query query = session.createQuery("from Order where id=:id");

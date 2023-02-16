@@ -11,11 +11,16 @@ import java.util.UUID;
 public class Medicament {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique = true, updatable = false, nullable = false)
     private Long id;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn( name = "substance_id")
     private Substance substance;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @JoinColumn( name = "producer_id")
+    private Producer producer;
 
     @Basic
     @Column(name = "name", nullable = false)
@@ -67,5 +72,13 @@ public class Medicament {
 
     public void setSubstance(Substance substance) {
         this.substance = substance;
+    }
+
+    public Producer getProducer() {
+        return producer;
+    }
+
+    public void setProducer(Producer producer) {
+        this.producer = producer;
     }
 }

@@ -1,9 +1,16 @@
 <%@ page import="dao.MedicamentDao" %>
 <%@ page import="java.util.List" %>
 <%@ page import="models.Medicament" %>
+<%@ page import="dao.ProducerDao" %>
+<%@ page import="dao.SubstanceDao" %>
+<%@ page import="models.Substance" %>
+<%@ page import="models.Producer" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%
     MedicamentDao medicamentDao = new MedicamentDao();
+    ProducerDao producerDao = new ProducerDao();
+    SubstanceDao substanceDao = new SubstanceDao();
+
     List<Medicament> list = medicamentDao.getMedicaments();
 
     String param = request.getParameter("param");
@@ -14,10 +21,7 @@
         Long id = Long.parseLong(request.getParameter("id"));
         edit = medicamentDao.getMedicament(id);
     }
-
 %>
-
-
 <html>
 <head>
     <title>Аптека - медикаменты</title>
@@ -47,6 +51,7 @@
                     <th>Доза</th>
                     <th>Номер</th>
                     <th>Активное вещество</th>
+                    <th>Производитель</th>
                     <th>Опции</th>
                 </tr>
                 <% for (Medicament item : list) {%>
@@ -58,6 +63,8 @@
                     <td><%=item.getNumber()%>
                     </td>
                     <td><%=item.getSubstance().getFarmGroup()%> | <%=item.getSubstance().getMnn()%>
+                    </td>
+                    <td><%=item.getProducer().getName()%>
                     </td>
                     <td>
                         <a class="btn btn-light" href="/medicaments?param=edit&id=<%=item.getId()%>"
@@ -86,20 +93,64 @@
                     <input class="form-control" placeholder="Наименование" name="name">
                 </div>
                 <div class="mb-3">
-                    <input class="form-control" placeholder="Наименование" name="name">
+                    <input class="form-control" placeholder="Доза" name="dose">
                 </div>
                 <div class="mb-3">
-                    <input class="form-control" placeholder="Наименование" name="name">
+                    <input class="form-control" placeholder="Количество" name="number">
                 </div>
                 <div class="mb-3">
-                    <%
-                        //dao
-                    %>
                     <select name="substance" class="form-control">
-<%--                        for--%>
-                        <option value="id seb">name sub</option>
+                        <% for (Substance item : substanceDao.getSubstances()) {%>
+                        <option value="<%=item.getId()%>"><%=item.getMnn()%> | <%=item.getFarmGroup()%></option>
+                        <%}%>
                     </select>
                 </div>
+                <div class="mb-3">
+                    <select name="producer">
+                        <% for (Producer item : producerDao.getProducers()) {%>
+                        <option value="<%=item.getId()%>"><%=item.getName()%></option>
+                        <%}%>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <input type="submit" class="form-control" value="Добавить">
+                </div>
+            </form>
+            <%}%>
+
+
+            <% if (param != null && param.equals("edit") && edit != null) {%>
+            <form method="put">
+                <input type="hidden" name="id" value="<%=edit.getId()%>">
+                <div class="mb-3">
+                    <input class="form-control" placeholder="Наименование" name="name" value="<%=edit.getName()%>">
+                </div>
+                <div class="mb-3">
+                    <input class="form-control" placeholder="Доза" name="dose" value="<%=edit.getDose()%>">
+                </div>
+                <div class="mb-3">
+                    <input class="form-control" placeholder="Количество" name="number" value="<%=edit.getNumber()%>">
+                </div>
+                <div class="mb-3">
+                    <select name="substance" class="form-control">
+                        <% for (Substance item : substanceDao.getSubstances()) {%>
+                        <option value="<%=item.getId()%>" <%=item.getId().equals(edit.getSubstance().getId()) ? "selected" : ""%>>
+                            <%=item.getMnn()%> | <%=item.getFarmGroup()%>
+                        </option>
+                        <%}%>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <select name="producer">
+                        <% for (Producer item : producerDao.getProducers()) {%>
+                        <option value="<%=item.getId()%>" <%=item.getId().equals(edit.getProducer().getId()) ? "selected" : ""%>>
+                            <%=item.getName()%>
+                        </option>
+                        <%}%>
+                    </select>
+                </div>
+
                 <div class="mb-3">
                     <input type="submit" class="form-control" value="Добавить">
                 </div>

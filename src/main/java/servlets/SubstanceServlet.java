@@ -45,7 +45,7 @@ public class SubstanceServlet extends HttpServlet {
             substanceDao.addSubstance(data);
             responseData.setLocation("/substances");
         }else {
-            responseData.setMessage("Не верный набор параметров");
+            responseData.setMessage("Неверный набор параметров");
         }
         response.getWriter().print(responseData);
     }
@@ -65,7 +65,7 @@ public class SubstanceServlet extends HttpServlet {
             substanceDao.deleteSubstance(id);
             responseData.setLocation("/substances");
         } else {
-            responseData.setMessage("Не верный набор параметров");
+            responseData.setMessage("Неверный набор параметров");
         }
 
         response.getWriter().print(responseData);

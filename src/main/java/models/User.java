@@ -11,6 +11,7 @@ import java.util.UUID;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique = true, updatable = false, nullable = false)
     private Long id;
 
     @Basic

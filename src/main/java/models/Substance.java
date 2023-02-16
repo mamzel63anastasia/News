@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class Substance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique = true, updatable = false, nullable = false)
     private Long id;
 
     @Basic

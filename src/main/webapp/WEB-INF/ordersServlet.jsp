@@ -2,18 +2,32 @@
 <%@ page import="java.util.List" %>
 <%@ page import="models.Order" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="models.Medicament" %>
+<%@ page import="dao.UserDao" %>
+<%@ page import="dao.MedicamentDao" %>
+<%@ page import="models.User" %>
 <<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%
     OrderDao orderDao = new OrderDao();
+    UserDao userDao = new UserDao();
+    MedicamentDao medicamentDao = new MedicamentDao();
     List<Order> list = orderDao.getOrders();
-    //List<Order> list = new ArrayList<>();
+
+    String param = request.getParameter("param");
+
+    Order edit = null;
+
+    if (param != null && request.getParameter("id") != null) {
+        Long id = Long.parseLong(request.getParameter("id"));
+        edit = orderDao.getOrder(id);
+    }
 
 %>
 
 <html>
 <head>
-    <title>Аптека - главная</title>
-    <%@include file="header-include.html" %>
+    <title>Аптека - заказы</title>
+    <%@include file="include/header.jsp" %>
 </head>
 <body>
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
@@ -31,70 +45,78 @@
 </header>
 <div class="container-fluid">
     <div class="row">
-        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-            <div class="position-sticky pt-3 sidebar-sticky">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/">
-                            Главная
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/producers">
-                            Производители
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/substances">
-                            Активные вещества
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/medicaments">
-                            Медикамент
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link activ" aria-current="page" href="/orders">
-                            Заказ
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/users">
-                            Пользователи
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+        <%@include file="include/menu.jsp" %>
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <table class="table">
+            <table class="table table-striped">
                 <tr>
-                    <td>Адрес</td>
-                    <td>Медикамент</td>
-                    <td>Редактировать</td>
-                    <td>Удалить</td>
+                    <th>Адрес отправления</th>
+                    <th>Пользователь</th>
+                    <th>Наименование медикамента и количетсво </th>
+                    <th>Опции</th>
                 </tr>
-                <% for (Order order : list) { %>
+                <% for (Order item : list) {%>
                 <tr>
-                    <td><%=order.getAdress()%></td>
-                    <td><%=order.getClass()%></td>
-                    <td>
-                        <a class="item-edit" href="/order/edit?orderId=<%=order.getId()%>">
-                            Редактировать
-                        </a>
+                    <td><%=item.getAdress()%>
+                    </td>
+                    <td><%=item.getUser().getFio()%>
                     </td>
                     <td>
-                        <a class="order-delete-link" href="#" id="<%=order.getId()%>">
-                            Удалить
+                        <%
+                        for (Medicament med : item.getMedicament()) {%>
+                        <div>
+                            <%=med.getName()%> | <%=med.getNumber()%>
+                        </div>
+                        <%}%>
+                    </td>
+                    <td>
+                        <a class="btn btn-light" href="/orders?param=edit&id=<%=item.getId()%>"
+                           title="редактировать">
+                            <i class="bi bi-pencil-square"></i>
                         </a>
+                        <form method="delete">
+                            <input type="hidden" name="id" value="<%=item.getId()%>">
+                            <button type="submit" class="btn btn-light" title="удалить">
+                                <i class="bi bi-x-square"></i>
+                            </button>
+                        </form>
                     </td>
                 </tr>
-                <% } %>
+                <%}%>
             </table>
+            <div align="right">
+                <a class="btn btn-secondary" href="/orders?param=add">
+                    <i class="bi bi-person-add"></i> Добавить запись</a>
+            </div>
+            <hr>
+
+            <% if (param != null && param.equals("add")) {%>
+            <form method="post">
+                <div class="mb-3">
+                    <input class="form-control" placeholder="Наименование" name="adress">
+                </div>
+                <div class="mb-3">
+                    <select name="user">
+                        <%for (User item : userDao.getUsers()) {%>
+                        <option value="<%=item.getId()%>"><%=item.getFio()%></option>
+                        <%}%>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <select multiple name="medicaments">
+                        <%for (Medicament item : medicamentDao.getMedicaments()){%>
+                        <option value="<%=item.getId()%>"><%=item.getName()%></option>
+                        <%}%>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <input type="submit" class="form-control" value="Добавить">
+                </div>
+            </form>
+            <%}%>
         </main>
     </div>
 </div>
-<%@include file="include/footer-include.html" %>
+<%@include file="include/footer.jsp" %>
 </body>
 </html>
